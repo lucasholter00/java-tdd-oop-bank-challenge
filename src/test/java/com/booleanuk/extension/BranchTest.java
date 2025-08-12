@@ -27,7 +27,7 @@ public class BranchTest {
         Branch branch = generateBranch();
         Account acc = branch.getAccounts().get(0);
         branch.createRequest(acc, 2000);
-        Request req = branch.getRequests();
+        Request req = branch.getRequests().get(0);
 
         branch.acceptRequest(req);
 
@@ -39,11 +39,22 @@ public class BranchTest {
         Branch branch = generateBranch();
         Account acc = branch.getAccounts().get(0);
         branch.createRequest(acc, 2000);
-        Request req = branch.getRequests();
+        Request req = branch.getRequests().getFirst();
 
         branch.denyRequest(req);
 
         Assertions.assertEquals(0, acc.getOverdraft());
+    }
+
+    @Test
+    public void testOverDraft(){
+        Branch branch = generateBranch();
+        Account acc = branch.getAccounts().getFirst();
+        branch.createRequest(acc, 2000);
+        Request req = branch.getRequests().getFirst();
+        branch.acceptRequest(req);
+
+        Assertions.assertDoesNotThrow(() -> acc.withdraw(1500));
     }
 
 }

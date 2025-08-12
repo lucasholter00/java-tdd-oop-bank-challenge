@@ -9,11 +9,15 @@ public class Account {
     List<Transaction> ledger;
     String id;
     float balance;
+    float overdraft;
+
+
 
     public Account(List<Transaction> ledger, String id, float balance){
         this.ledger = ledger;
         this. id = id;
         this.balance = balance;
+        this.overdraft = 0;
     }
 
     public float getBalanceFromLedger(){
@@ -61,8 +65,16 @@ public class Account {
         return this.getBalance();
     }
 
+    public float getOverdraft() {
+        return overdraft;
+    }
+
+    public void setOverdraft(float overdraft) {
+        this.overdraft = overdraft;
+    }
+
     public float withdraw(float amount) throws InsufficientFundsException {
-        if(amount > this.getBalance()){
+        if(amount > this.getBalance()+overdraft){
             throw new InsufficientFundsException();
         } else {
             this.setBalance(this.getBalance()-amount);
