@@ -88,4 +88,18 @@ public class AccountTest {
                 now + " || 1000.00 ||        || 1000.00"));
     }
 
+    @Test
+    public void testGetBalanceFromLedger(){
+        Account acc = generateAccount();
+
+        acc.deposit(1000);
+        acc.deposit(2000);
+        try{
+            acc.withdraw(500);
+        } catch(InsufficientFundsException e){
+            Assertions.fail();
+        }
+        Assertions.assertEquals(2500, acc.getBalanceFromLedger());
+    }
+
 }
