@@ -1,7 +1,6 @@
-package com.booleanuk.core;
+package com.booleanuk.extension;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,13 @@ public class Account {
         this.balance = balance;
     }
 
+    public float getBalanceFromLedger(){
+        float acc = 0;
+        for(Transaction curr : ledger){
+            acc += curr.getDeltaBalance();
+        }
+        return acc;
+    }
 
     public String getTransactionHistory(){
         List<Transaction> transactions = new ArrayList<>(ledger); //Clone list to not affect attribute
@@ -55,7 +61,7 @@ public class Account {
         return this.getBalance();
     }
 
-    public float withdraw(float amount) throws InsufficientFundsException{
+    public float withdraw(float amount) throws InsufficientFundsException {
         if(amount > this.getBalance()){
             throw new InsufficientFundsException();
         } else {

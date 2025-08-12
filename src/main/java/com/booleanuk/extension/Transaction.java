@@ -1,7 +1,6 @@
-package com.booleanuk.core;
+package com.booleanuk.extension;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Transaction {
     private float deltaBalance;
@@ -24,7 +23,7 @@ public class Transaction {
         this.deltaBalance = deltaBalance;
     }
 
-    public void setTimeStamp(LocalDate  timeStamp) {
+    public void setTimeStamp(LocalDate timeStamp) {
         this.timeStamp = timeStamp;
     }
 }

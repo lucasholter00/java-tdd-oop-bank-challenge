@@ -1,14 +1,11 @@
-package com.booleanuk.core;
+package com.booleanuk.extension;
 
-import com.sun.source.tree.AssertTree;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class AccountTest {
@@ -88,5 +85,17 @@ public class AccountTest {
                 now + " || 1000.00 ||        || 1000.00"));
     }
 
+    @Test
+    public void testGetBalanceFromLedger(){
+        Account acc = generateAccount();
+        acc.deposit(1000);
+        acc.deposit(2000);
+        try{
+            acc.withdraw(500);
+        } catch(InsufficientFundsException e){
+            Assertions.fail();
+        }
 
+        Assertions.assertEquals(2500, acc.getBalanceFromLedger());
+    }
 }

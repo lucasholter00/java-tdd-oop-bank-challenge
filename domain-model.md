@@ -28,3 +28,4 @@ Extension:
 |                  |                          |                         |                |                   |
 | Transaction      | float deltaBalance       | getDeltaBalance()       |                | deltaBalance      |
 |                  | LocalDateTime timeStamp  | getTimeStamp()          |                | timestamp         |
+| Branch           | List<Account> accounts   | getAccounts()           |                |                   |
