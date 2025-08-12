@@ -17,6 +17,14 @@ public class Account {
         this.balance = balance;
     }
 
+    public float getBalanceFromLedger(){
+        float acc = 0;
+        for(Transaction curr : ledger){
+            acc += curr.getDeltaBalance();
+        }
+        return acc;
+    }
+
     public String getTransactionHistory(){
         List<Transaction> transactions = new ArrayList<>(ledger); //Clone list to not affect attribute
 
