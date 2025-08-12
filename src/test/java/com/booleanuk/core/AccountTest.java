@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Array;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -64,6 +66,26 @@ public class AccountTest {
         acc.deposit(50);
 
         Assertions.assertThrows(InsufficientFundsException.class ,() -> acc.withdraw(100));
+    }
+
+    @Test
+    public void testLedgerReturnString(){
+        Account acc = generateAccount();
+        acc.deposit(1000);
+        acc.deposit(2000);
+        try{
+            acc.withdraw(500);
+        } catch(InsufficientFundsException e){
+            Assertions.fail();
+        }
+
+        String now = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/uuuu")).toString();
+        System.out.println(acc.getTransactionHistory());
+        Assertions.assertTrue(acc.getTransactionHistory().contains(
+                "date       || credit  || debit  || balance\n" +
+                now + " ||         || 500.00 || 2500.00\n" +
+                now + " || 2000.00 ||        || 3000.00\n" +
+                now + " || 1000.00 ||        || 1000.00"));
     }
 
 }
