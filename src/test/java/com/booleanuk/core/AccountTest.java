@@ -27,6 +27,15 @@ public class AccountTest {
         Assertions.assertEquals(testInsert, acc.getBalance());
     }
 
+    public void testTransactionGeneration(){
+        Account acc = generateAccount();
+
+        acc.deposit(10);
+        acc.withdraw(5);
+
+        Assertions.assertEquals(2, acc.getLedger().size());
+    }
+
     @Test
     public void testWithdrawValid(){
         Account acc = generateAccount();
