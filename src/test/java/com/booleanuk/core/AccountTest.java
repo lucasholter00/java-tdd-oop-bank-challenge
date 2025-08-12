@@ -11,8 +11,9 @@ import java.util.UUID;
 
 public class AccountTest {
     float delta = 0.0001f;
+
     private Account generateAccount(){
-        Account account = new Account(new ArrayList<Transaction> ledger, UUID.randomUUID(), 0);
+        return new Account(new ArrayList<Transaction>(), UUID.randomUUID().toString(), 0);
     }
 
 
@@ -27,11 +28,16 @@ public class AccountTest {
         Assertions.assertEquals(testInsert, acc.getBalance());
     }
 
+    @Test
     public void testTransactionGeneration(){
         Account acc = generateAccount();
 
         acc.deposit(10);
-        acc.withdraw(5);
+        try{
+            acc.withdraw(5);
+        } catch(InsufficientFundsException e){
+            Assertions.fail("Withdraw threw exception");
+        }
 
         Assertions.assertEquals(2, acc.getLedger().size());
     }
@@ -42,9 +48,13 @@ public class AccountTest {
 
         Assertions.assertEquals(0, acc.getBalance(), delta);
         float testInsert = 150f;
-        flot testWithdraw = 100f;
+        float testWithdraw = 100f;
         acc.deposit(testInsert);
-        Assertions.assertEquals(testInsert-testWithdraw, acc.withdraw(testWithdraw), delta);
+        try {
+            Assertions.assertEquals(testInsert - testWithdraw, acc.withdraw(testWithdraw), delta);
+        } catch(InsufficientFundsException e){
+            Assertions.fail("Withdraw threw exception");
+        }
         Assertions.assertEquals(testInsert-testWithdraw, acc.getBalance());
     }
 
@@ -53,7 +63,7 @@ public class AccountTest {
         Account acc = generateAccount();
         acc.deposit(50);
 
-        Assertions.assertThrows(acc.withdraw(100));
+        Assertions.assertThrows(InsufficientFundsException.class ,() -> acc.withdraw(100));
     }
 
 }
